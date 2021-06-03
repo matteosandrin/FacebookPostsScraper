@@ -1,13 +1,17 @@
-from FacebookPostsScraper import FacebookPostsScraper as Fps
+from FacebookPostsScraper import FacebookPostsScraper as FPS
 from pprint import pprint as pp
+import configparser
+
+config = configparser.ConfigParser()
+config.read("config")
 
 def main():
     # Enter your Facebook email and password
-    email = ''
-    password = ''
+    email = config["DEFAULT"]["EMAIL"]
+    password = config["DEFAULT"]["PASSWORD"]
 
     # Instantiate an object
-    fps = Fps(email, password)
+    fps = FPS(email, password)
 
     # Example with single profile
     single_profile = 'https://m.facebook.com/groups/HarvardMITHousing'
