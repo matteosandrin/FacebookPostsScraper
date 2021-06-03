@@ -6,6 +6,8 @@ from urllib.parse import urlparse, unquote
 from urllib.parse import parse_qs
 import pandas as pd
 import json
+from pprint import pprint as pp
+import re
 
 
 class FacebookPostsScraper:
@@ -186,13 +188,14 @@ class FacebookPostsScraper:
             if post_url is not None:
                 post_url = post_url.get('href', '')
                 if len(post_url) > 0:
-                    post_url = f'https://www.facebook.com{post_url}'
                     p_url = urlparse(post_url)
                     qs = parse_qs(p_url.query)
                     if not is_group:
                         post_url = f'{p_url.scheme}://{p_url.hostname}{p_url.path}?story_fbid={qs["story_fbid"][0]}&id={qs["id"][0]}'
-                    else:
+                    if "id" in qs:
                         post_url = f'{p_url.scheme}://{p_url.hostname}{p_url.path}/permalink/{qs["id"][0]}/'
+                    else:
+                        post_url = f'{p_url.scheme}://{p_url.hostname}{p_url.path}'
             else:
                 post_url = ''
 
